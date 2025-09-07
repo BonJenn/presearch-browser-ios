@@ -8,8 +8,8 @@ private let base = 36
 private let tMin = 1
 private let tMax = 26
 private let initialBias = 72
-private let initialN: Int = 128  // 0x80
-private let delimiter: Character = "-";  // '\x2D'
+private let initialN: Int = 128
+private let delimiter: Character = "-"  // '\x2D'
 private let prefixPunycode = "xn--"
 private let asciiPunycode = Array("abcdefghijklmnopqrstuvwxyz0123456789")
 

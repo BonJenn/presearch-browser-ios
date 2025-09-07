@@ -12,9 +12,10 @@ import BraveUI
 /// Displays shield settings and shield stats for a given URL
 class ShieldsViewController: UIViewController, PopoverContentComponent {
 
-  let tab: Tab
+  let braveTab: Tab
+
   private lazy var url: URL? = {
-    guard let _url = tab.url else { return nil }
+    guard let _url = braveTab.url else { return nil }
 
     if InternalURL.isValid(url: _url),
       let internalURL = InternalURL(_url),
@@ -32,11 +33,11 @@ class ShieldsViewController: UIViewController, PopoverContentComponent {
 
   /// Create with an initial URL and block stats (or nil if you are not on any web page)
   init(tab: Tab) {
-    self.tab = tab
+    self.braveTab = tab
 
     super.init(nibName: nil, bundle: nil)
 
-    tab.contentBlocker.statsDidChange = { [weak self] _ in
+    braveTab.contentBlocker.statsDidChange = { [weak self] _ in
       self?.updateShieldBlockStats()
     }
   }
@@ -88,7 +89,7 @@ class ShieldsViewController: UIViewController, PopoverContentComponent {
 
   private func updateShieldBlockStats() {
     shieldsView.simpleShieldView.blockCountView.countLabel.text = String(
-      tab.contentBlocker.stats.adCount + tab.contentBlocker.stats.trackerCount + tab.contentBlocker.stats.httpsCount + tab.contentBlocker.stats.scriptCount + tab.contentBlocker.stats.fingerprintingCount
+      braveTab.contentBlocker.stats.adCount + braveTab.contentBlocker.stats.trackerCount + braveTab.contentBlocker.stats.httpsCount + braveTab.contentBlocker.stats.scriptCount + braveTab.contentBlocker.stats.fingerprintingCount
     )
   }
 

@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.$(LOCAL_BUNDLE_ID)</string>
+		<string>group.com.Presearch.BrowseriOS</string>
 	</array>
 </dict>
 </plist>

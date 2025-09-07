@@ -50,7 +50,7 @@ class FeedDataSource {
     }
   }
 
-  @Observable private(set) var state: State = .initial
+  @ObservableValue private(set) var state: State = .initial
   private(set) var sources: [FeedItem.Source] = []
   private var items: [FeedItem.Content] = []
 
@@ -63,7 +63,7 @@ class FeedDataSource {
   func observeState(
     from object: AnyObject,
     onQueue queue: DispatchQueue = .main,
-    _ handler: @escaping Observable<State>.Handler
+    _ handler: @escaping ObservableValue<State>.Handler
   ) {
     _state.observe(from: object, on: queue, handler)
   }

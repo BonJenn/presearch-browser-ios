@@ -97,7 +97,7 @@ class NewTabPageViewController: UIViewController {
 
   private let layout = NewTabPageFlowLayout()
   private let collectionView: NewTabCollectionView
-  private weak var tab: Tab?
+  private weak var braveTab: Tab?
   private let rewards: BraveRewards
 
   private var background: NewTabPageBackground
@@ -117,7 +117,7 @@ class NewTabPageViewController: UIViewController {
     feedDataSource: FeedDataSource,
     rewards: BraveRewards
   ) {
-    self.tab = tab
+    self.braveTab = tab
     self.rewards = rewards
     self.feedDataSource = feedDataSource
     background = NewTabPageBackground(dataSource: dataSource)

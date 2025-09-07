@@ -6,7 +6,15 @@
 	<string>production</string>
 	<key>com.apple.developer.applesignin</key>
 	<array>
-		<string></string>
+		<string>Default</string>
+	</array>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.com.Presearch.BrowseriOS</string>
+	</array>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudKit</string>
 	</array>
 	<key>com.apple.developer.pass-type-identifiers</key>
 	<array>
@@ -14,13 +22,9 @@
 	</array>
 	<key>com.apple.developer.siri</key>
 	<true/>
-	<key>com.apple.developer.ubiquity-container-identifiers</key>
-	<string></string>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.Presearch.BrowseriOS</string>
-		<string>group.com.presearch.ios.browser</string>
-		<string>group.com.Presearch.BrowseriOS.beta</string>
 	</array>
 </dict>
 </plist>

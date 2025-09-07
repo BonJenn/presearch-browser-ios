@@ -40,7 +40,7 @@ class BraveCoreMigrator {
     }
   }
 
-  @Observable
+  @ObservableValue
   private(set) public var migrationObserver: MigrationState = .notStarted
 
   private var bookmarkMigrationState: MigrationState = .notStarted

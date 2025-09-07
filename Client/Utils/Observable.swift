@@ -5,10 +5,7 @@
 
 import Foundation
 
-/// A property wrapper which notifies observers when it's wrapped value changes
-///
-/// TODO: Replace usages of this with Combine/@Published when minimum deployment target is iOS 13
-@propertyWrapper struct Observable<ValueType> {
+@propertyWrapper struct ObservableValue<ValueType> {
   typealias Handler = (_ oldValue: ValueType, _ newValue: ValueType) -> Void
 
   private class Observer {
@@ -47,3 +44,7 @@ import Foundation
     }
   }
 }
+
+// ADD: Backwards-compat typealias for any non-attribute generic references, not used as an attribute.
+// This avoids widespread refactors where Observable<Value>.Handler might be referenced.
+typealias Observable<ValueType> = ObservableValue<ValueType>

@@ -18,7 +18,7 @@ class BraveRewardsViewController: UIViewController, PopoverContentComponent {
     case unverifiedPublisherLearnMoreTapped
   }
 
-  let tab: Tab
+  let braveTab: Tab
   let rewards: BraveRewards
   let legacyWallet: BraveLedger?
   var actionHandler: ((Action) -> Void)?
@@ -37,7 +37,7 @@ class BraveRewardsViewController: UIViewController, PopoverContentComponent {
         rewardsView.publisherView.faviconImageView.image = #imageLiteral(resourceName: "rewards-panel-unverified-pub").withRenderingMode(.alwaysOriginal)
         rewardsView.publisherView.faviconImageView.contentMode = .center
       } else {
-        if let url = tab.url {
+        if let url = braveTab.url {
           rewardsView.publisherView.faviconImageView.contentMode = .scaleAspectFit
           rewardsView.publisherView.faviconImageView.loadFavicon(for: url)
         } else {
@@ -50,7 +50,7 @@ class BraveRewardsViewController: UIViewController, PopoverContentComponent {
   private var supportedListCount: Int = 0
 
   init(tab: Tab, rewards: BraveRewards, legacyWallet: BraveLedger?) {
-    self.tab = tab
+    self.braveTab = tab
     self.rewards = rewards
     self.legacyWallet = legacyWallet
 
@@ -89,10 +89,10 @@ class BraveRewardsViewController: UIViewController, PopoverContentComponent {
       self.rewardsView.statusView.setVisibleStatus(status: .rewardsOff, animated: false)
       self.rewardsView.publisherView.isHidden = true
     } else {
-      if let url = self.tab.url, !url.isLocal, !InternalURL.isValid(url: url) {
+      if let url = self.braveTab.url, !url.isLocal, !InternalURL.isValid(url: url) {
         self.rewardsView.publisherView.isHidden = false
         self.rewardsView.publisherView.hostLabel.text = url.baseDomain
-        ledger.fetchPublisherActivity(from: url, faviconURL: nil, publisherBlob: nil, tabId: UInt64(self.tab.rewardsId))
+        ledger.fetchPublisherActivity(from: url, faviconURL: nil, publisherBlob: nil, tabId: UInt64(self.braveTab.rewardsId))
       } else {
         self.rewardsView.publisherView.isHidden = true
       }
@@ -136,7 +136,7 @@ class BraveRewardsViewController: UIViewController, PopoverContentComponent {
     if let displayName = publisher?.attributedDisplayName(fontSize: BraveRewardsPublisherView.UX.hostLabelFontSize) {
       rewardsView.publisherView.hostLabel.attributedText = displayName
     } else {
-      rewardsView.publisherView.hostLabel.text = tab.url?.baseDomain
+      rewardsView.publisherView.hostLabel.text = braveTab.url?.baseDomain
     }
   }
 
@@ -154,7 +154,7 @@ class BraveRewardsViewController: UIViewController, PopoverContentComponent {
 
         observer.fetchedPanelPublisher = { [weak self] publisher, tabId in
           guard let self = self else { return }
-          if tabId == self.tab.rewardsId {
+          if tabId == self.braveTab.rewardsId {
             self.publisher = publisher
           }
         }

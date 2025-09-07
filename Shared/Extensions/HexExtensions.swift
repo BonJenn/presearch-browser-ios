@@ -42,14 +42,13 @@ private let HexDigits: [String] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", 
 extension Data {
   public var hexEncodedString: String {
     var result = String()
-    result.reserveCapacity(count * 2)
-    withUnsafeBytes {
-      for i in 0..<count {
-        result.append(HexDigits[Int(($0[i] & 0xf0) >> 4)])
-        result.append(HexDigits[Int($0[i] & 0x0f)])
-      }
+    result.reserveCapacity(self.count * 2)
+    for byte in self {
+      let hi = (byte & 0xF0) >> 4
+      let lo = byte & 0x0F
+      result.append(HexDigits[Int(hi)])
+      result.append(HexDigits[Int(lo)])
     }
-
     return String(result)
   }
 }
