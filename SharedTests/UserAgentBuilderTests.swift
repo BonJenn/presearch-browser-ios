@@ -98,14 +98,16 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/15.0 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     let iPad_safari_15_UA = """
       Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/15.0 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     // MARK: - 15.0
@@ -127,14 +129,16 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/14.1.1 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     let iPad_safari_14_UA = """
       Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/14.1.1 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     // MARK: 14.3
@@ -168,14 +172,16 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPhone; CPU iPhone OS 13_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/13.1.2 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     let iPad_safari_13_UA = """
       Mozilla/5.0 (iPad; CPU OS 13_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/13.1.2 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     // MARK: 13.3.1
@@ -234,7 +240,8 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/16.0 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     XCTAssertEqual(
@@ -247,7 +254,8 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPad; CPU OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/16.0 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     XCTAssertEqual(
@@ -261,7 +269,8 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/14.1.1 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     XCTAssertEqual(
@@ -274,7 +283,8 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/14.1.1 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     XCTAssertEqual(
@@ -288,7 +298,8 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPhone; CPU iPhone OS 13_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/13.1.2 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     XCTAssertEqual(
@@ -301,7 +312,8 @@ class UserAgentBuilderTests: XCTestCase {
       Mozilla/5.0 (iPad; CPU OS 13_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) \
       Version/13.1.2 \
       Mobile/15E148 \
-      Safari/604.1
+      Safari/604.1 \
+      Pre\u{0020}
       """
 
     XCTAssertEqual(
