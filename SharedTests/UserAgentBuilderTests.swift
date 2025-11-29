@@ -348,4 +348,42 @@ class UserAgentBuilderTests: XCTestCase {
       UserAgentBuilder(device: iPhone, iOSVersion: ios14_1_1).build(desktopMode: true))
   }
 
+  func testPresearchUserAgentIdentifier() {
+    // Test that all mobile user agents end with "Pre " for presearch.com recognition
+    let ios13 = OperatingSystemVersion(majorVersion: 13, minorVersion: 0, patchVersion: 0)
+    let ios14 = OperatingSystemVersion(majorVersion: 14, minorVersion: 0, patchVersion: 0)
+    let ios15 = OperatingSystemVersion(majorVersion: 15, minorVersion: 0, patchVersion: 0)
+    let ios16 = OperatingSystemVersion(majorVersion: 16, minorVersion: 0, patchVersion: 0)
+
+    // iPhone user agents should end with "Pre "
+    let iPhoneiOS13UA = UserAgentBuilder(device: iPhone, iOSVersion: ios13).build(desktopMode: false)
+    XCTAssertTrue(iPhoneiOS13UA.hasSuffix("Pre "), "iPhone iOS 13 user agent should end with 'Pre '")
+
+    let iPhoneiOS14UA = UserAgentBuilder(device: iPhone, iOSVersion: ios14).build(desktopMode: false)
+    XCTAssertTrue(iPhoneiOS14UA.hasSuffix("Pre "), "iPhone iOS 14 user agent should end with 'Pre '")
+
+    let iPhoneiOS15UA = UserAgentBuilder(device: iPhone, iOSVersion: ios15).build(desktopMode: false)
+    XCTAssertTrue(iPhoneiOS15UA.hasSuffix("Pre "), "iPhone iOS 15 user agent should end with 'Pre '")
+
+    let iPhoneiOS16UA = UserAgentBuilder(device: iPhone, iOSVersion: ios16).build(desktopMode: false)
+    XCTAssertTrue(iPhoneiOS16UA.hasSuffix("Pre "), "iPhone iOS 16 user agent should end with 'Pre '")
+
+    // iPad user agents should end with "Pre "
+    let iPadiOS13UA = UserAgentBuilder(device: iPad, iOSVersion: ios13).build(desktopMode: false)
+    XCTAssertTrue(iPadiOS13UA.hasSuffix("Pre "), "iPad iOS 13 user agent should end with 'Pre '")
+
+    let iPadiOS14UA = UserAgentBuilder(device: iPad, iOSVersion: ios14).build(desktopMode: false)
+    XCTAssertTrue(iPadiOS14UA.hasSuffix("Pre "), "iPad iOS 14 user agent should end with 'Pre '")
+
+    let iPadiOS15UA = UserAgentBuilder(device: iPad, iOSVersion: ios15).build(desktopMode: false)
+    XCTAssertTrue(iPadiOS15UA.hasSuffix("Pre "), "iPad iOS 15 user agent should end with 'Pre '")
+
+    let iPadiOS16UA = UserAgentBuilder(device: iPad, iOSVersion: ios16).build(desktopMode: false)
+    XCTAssertTrue(iPadiOS16UA.hasSuffix("Pre "), "iPad iOS 16 user agent should end with 'Pre '")
+
+    // Desktop user agents should NOT have "Pre " suffix
+    let desktopUA = UserAgentBuilder(device: iPhone, iOSVersion: ios15).build(desktopMode: true)
+    XCTAssertFalse(desktopUA.hasSuffix("Pre "), "Desktop user agent should not end with 'Pre '")
+  }
+
 }
