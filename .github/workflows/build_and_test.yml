@@ -27,7 +27,7 @@ jobs:
       - name: Update node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '16.x'
       - name: Install SwiftLint
         run: brew install swiftlint
       - name: Run bootstrap script
