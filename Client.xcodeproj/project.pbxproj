@@ -8086,7 +8086,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Thanks to folks at PSPDFKit for this workaround:\n# https://pspdfkit.com/guides/ios/current/knowledge-base/library-not-found-swiftpm/\n#\n# Required because of some XCFrameorks not codesigning properly when building for Device\nfind \"${CODESIGNING_FOLDER_PATH}\" -name '*.framework' -print0 | while read -d $'\\0' framework \ndo \n    codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"${framework}\" \ndone\n\n";
+			shellScript = "# Thanks to folks at PSPDFKit for this workaround:\n# https://pspdfkit.com/guides/ios/current/knowledge-base/library-not-found-swiftpm/\n#\n# Required because of some XCFrameorks not codesigning properly when building for Device\nif [ \"${CODE_SIGNING_ALLOWED}\" = \"NO\" ]; then\n    echo \"Skipping embedded framework signing because code signing is disabled.\"\n    exit 0\nfi\n\nfind \"${CODESIGNING_FOLDER_PATH}\" -name '*.framework' -print0 | while read -d $'\\0' framework \ndo \n    codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"${framework}\" \ndone\n\n";
 		};
 		2779B7052159297D0044A102 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -8146,7 +8146,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nset -e\n\n# Use Node 12 for this build (nvm install path)\nexport PATH=\"$HOME/.nvm/versions/node/v12.22.12/bin:/opt/homebrew/bin:/usr/local/bin:$PATH\"\n\necho \"node -> $(which node)\"\nnode -v\necho \"npm  -> $(which npm)\"\nnpm -v\n\n# Ensure we run from the project root (where package.json lives)\ncd \"$SRCROOT\"\n\n# Install once after a clean; skip on incremental builds\nif [ ! -d \"node_modules\" ]; then\n  npm ci || npm install\nfi\n\n# Build JS assets\nnpm run build\n";
+			shellScript = "#!/bin/sh\nset -e\n\n# Prefer the Node selected by CI/Xcode. When building from Xcode.app, try nvm's Node 16 first.\nif [ -s \"$HOME/.nvm/nvm.sh\" ]; then\n  . \"$HOME/.nvm/nvm.sh\"\n  nvm use 16 >/dev/null 2>&1 || true\nfi\n\n# Webpack in this repo still uses OpenSSL APIs blocked by modern Node defaults.\nif command -v node >/dev/null 2>&1; then\n  NODE_MAJOR=$(node -p \"process.versions.node.split('.')[0]\" 2>/dev/null || echo 0)\n  if [ \"$NODE_MAJOR\" -ge 17 ]; then\n    export NODE_OPTIONS=\"${NODE_OPTIONS:+$NODE_OPTIONS }--openssl-legacy-provider\"\n  fi\nfi\n\necho \"node -> $(which node)\"\nnode -v\necho \"npm  -> $(which npm)\"\nnpm -v\n\n# Ensure we run from the project root (where package.json lives)\ncd \"$SRCROOT\"\n\n# Install once after a clean; skip on incremental builds\nif [ ! -d \"node_modules\" ]; then\n  npm ci || npm install\nfi\n\n# Build JS assets\nnpm run build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -12497,6 +12497,7 @@
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				ENABLE_BITCODE = NO;
+				MARKETING_VERSION = 12.4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -12743,6 +12744,7 @@
 				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HS6SS498VA;
+				MARKETING_VERSION = 12.4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BrowserIntents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -14161,6 +14163,7 @@
 				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HS6SS498VA;
+				MARKETING_VERSION = 12.4;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BraveWidgets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
