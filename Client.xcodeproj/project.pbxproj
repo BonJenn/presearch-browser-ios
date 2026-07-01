@@ -1097,6 +1097,7 @@
 		CA225DF62795D1A80024C104 /* MainFrameAtDocumentStartSandboxed.js in Resources */ = {isa = PBXBuildFile; fileRef = CA225DF42795D1A70024C104 /* MainFrameAtDocumentStartSandboxed.js */; };
 		CA225DF72795D1A80024C104 /* MainFrameAtDocumentEndSandboxed.js in Resources */ = {isa = PBXBuildFile; fileRef = CA225DF52795D1A80024C104 /* MainFrameAtDocumentEndSandboxed.js */; };
 		CA225DF92795D7690024C104 /* WKContentWorld+Sandbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA225DF82795D7690024C104 /* WKContentWorld+Sandbox.swift */; };
+		B0C0DE000000000000000001 /* PresearchNSFWHide.js in Resources */ = {isa = PBXBuildFile; fileRef = B0C0DE000000000000000002 /* PresearchNSFWHide.js */; };
 		CA29F2F3273DAEA100C391C3 /* PlaylistOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA29F2F2273DAEA100C391C3 /* PlaylistOnboardingView.swift */; };
 		CA2CA1B127F4B50300B25646 /* ReadyState.js in Resources */ = {isa = PBXBuildFile; fileRef = CA2CA1B027F4B50300B25646 /* ReadyState.js */; };
 		CA2CA1CF27F4B93400B25646 /* ReadyStateScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CA1CE27F4B93400B25646 /* ReadyStateScriptHelper.swift */; };
@@ -3113,6 +3114,7 @@
 		CA225DF42795D1A70024C104 /* MainFrameAtDocumentStartSandboxed.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MainFrameAtDocumentStartSandboxed.js; sourceTree = "<group>"; };
 		CA225DF52795D1A80024C104 /* MainFrameAtDocumentEndSandboxed.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MainFrameAtDocumentEndSandboxed.js; sourceTree = "<group>"; };
 		CA225DF82795D7690024C104 /* WKContentWorld+Sandbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKContentWorld+Sandbox.swift"; sourceTree = "<group>"; };
+		B0C0DE000000000000000002 /* PresearchNSFWHide.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = PresearchNSFWHide.js; sourceTree = "<group>"; };
 		CA29F2F2273DAEA100C391C3 /* PlaylistOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistOnboardingView.swift; sourceTree = "<group>"; };
 		CA2CA1B027F4B50300B25646 /* ReadyState.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ReadyState.js; sourceTree = "<group>"; };
 		CA2CA1CE27F4B93400B25646 /* ReadyStateScriptHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyStateScriptHelper.swift; sourceTree = "<group>"; };
@@ -6323,6 +6325,7 @@
 				F9B23EE123F61173000EB3D8 /* PaymentRequest.js */,
 				5E4E078224A0E4D700B01720 /* YoutubeAdblock.js */,
 				0A64384D24FD4E43000E80A3 /* ArchiveIsCompat.js */,
+				B0C0DE000000000000000002 /* PresearchNSFWHide.js */,
 				5E5E6F2825BB61320035B6A0 /* Playlist.js */,
 				5EC2C0E425C0B321005EA984 /* PlaylistDetector.js */,
 				5EC0017D260129AC005DDE4A /* PlaylistSwizzler.js */,
@@ -7988,6 +7991,7 @@
 				6B261B872826978900FEEEB4 /* alex-plesovskich.jpg in Resources */,
 				CA2CA1B127F4B50300B25646 /* ReadyState.js in Resources */,
 				5E4E078324A0E4D700B01720 /* YoutubeAdblock.js in Resources */,
+				B0C0DE000000000000000001 /* PresearchNSFWHide.js in Resources */,
 				6B261B832826978900FEEEB4 /* corwin-prescott_beach.jpg in Resources */,
 				445ABC962731DDFF0089710D /* NewYorkMedium-Bold.otf in Resources */,
 				E4B7B7791A793CF20022C5E0 /* FiraSans-Light.ttf in Resources */,
@@ -8146,7 +8150,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nset -e\n\n# Prefer the Node selected by CI/Xcode. When building from Xcode.app, try nvm's Node 16 first.\nif [ -s \"$HOME/.nvm/nvm.sh\" ]; then\n  . \"$HOME/.nvm/nvm.sh\"\n  nvm use 16 >/dev/null 2>&1 || true\nfi\n\n# Webpack in this repo still uses OpenSSL APIs blocked by modern Node defaults.\nif command -v node >/dev/null 2>&1; then\n  NODE_MAJOR=$(node -p \"process.versions.node.split('.')[0]\" 2>/dev/null || echo 0)\n  if [ \"$NODE_MAJOR\" -ge 17 ]; then\n    export NODE_OPTIONS=\"${NODE_OPTIONS:+$NODE_OPTIONS }--openssl-legacy-provider\"\n  fi\nfi\n\necho \"node -> $(which node)\"\nnode -v\necho \"npm  -> $(which npm)\"\nnpm -v\n\n# Ensure we run from the project root (where package.json lives)\ncd \"$SRCROOT\"\n\n# Install once after a clean; skip on incremental builds\nif [ ! -d \"node_modules\" ]; then\n  npm ci || npm install\nfi\n\n# Build JS assets\nnpm run build\n";
+			shellScript = "#!/bin/sh\nset -e\n\n# Xcode.app runs scripts with a small PATH, so expose common local Node installs.\nexport PATH=\"/opt/homebrew/bin:/usr/local/bin:$PATH\"\n\n# Prefer the Node selected by CI/Xcode. When building from Xcode.app, try nvm's Node 16 first.\nif [ -s \"$HOME/.nvm/nvm.sh\" ]; then\n  set +e\n  . \"$HOME/.nvm/nvm.sh\" --no-use\n  set -e\n  if command -v nvm >/dev/null 2>&1; then\n    nvm use 16 >/dev/null 2>&1 || true\n  fi\nfi\n\n# Webpack in this repo still uses OpenSSL APIs blocked by modern Node defaults.\nif command -v node >/dev/null 2>&1; then\n  NODE_MAJOR=$(node -p \"process.versions.node.split('.')[0]\" 2>/dev/null || echo 0)\n  if [ \"$NODE_MAJOR\" -ge 17 ]; then\n    export NODE_OPTIONS=\"${NODE_OPTIONS:+$NODE_OPTIONS }--openssl-legacy-provider\"\n  fi\nfi\n\necho \"node -> $(command -v node || echo 'not found')\"\nnode -v\necho \"npm  -> $(command -v npm || echo 'not found')\"\nnpm -v\n\n# Ensure we run from the project root (where package.json lives)\ncd \"$SRCROOT\"\n\n# Install once after a clean; skip on incremental builds\nif [ ! -d \"node_modules\" ]; then\n  npm ci || npm install\nfi\n\n# Build JS assets\nnpm run build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -12353,6 +12357,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				ENABLE_BITCODE = NO;
@@ -12377,6 +12382,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.ShareExtension;
@@ -12426,6 +12432,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -12444,6 +12451,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.ShareExtension;
@@ -12564,6 +12572,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -12582,6 +12591,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -12634,6 +12644,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				ENABLE_TESTABILITY = YES;
@@ -12648,6 +12659,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.intents;
@@ -12674,6 +12686,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -12683,6 +12696,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.intents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -12708,6 +12722,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -12717,6 +12732,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -12777,6 +12793,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -12786,6 +12803,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.intents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -12811,6 +12829,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -12820,6 +12839,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.intents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -14046,7 +14066,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/BraveWidgets/Entitlements/WidgetDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = HS6SS498VA;
 				ENABLE_TESTABILITY = YES;
@@ -14063,6 +14083,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.widgets;
@@ -14099,6 +14120,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -14135,6 +14157,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -14173,6 +14196,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -14208,6 +14232,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 12.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Presearch.BrowseriOS.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
